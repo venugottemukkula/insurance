@@ -1,0 +1,32 @@
+pipeline{
+  agent any
+
+   tools{
+     maven 'M2_HOME'
+          }
+
+   stages {
+     stage('checkout') {
+       steps {
+        echo 'checkout the source from Github'
+        git branch: 'main', url: 'https://github.com/venugottemukkula/insurance.git'
+               }
+                          }
+
+    stage('package the application') {
+       steps {
+        echo "packaing the application"
+          sh 'mvn clean package'
+                }
+                   }
+
+     stage('publish reports using HTML') {
+      steps {
+       publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/ Insure-Project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+               }
+                                                }
+                    }
+                          }
+~
+~
+
